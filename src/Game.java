@@ -70,8 +70,31 @@ public class Game {
 				break;
 			case "use":
 				i = getItem(words[1]);
-				if (i == null)
-					System.out.println("You don't have the " + words[1] +".");
+				if(currentRoom.hasItem("Chain")) {
+					inventory.add(currentRoom.removeItem(words[1]));
+					i=getItem(words[1]);
+					i.use();
+					currentRoom.addItem(i);
+					inventory.remove(i);
+					if(words[1].equals("Chain")) {
+						words[1]="goo";
+						inventory.add(currentRoom.removeItem(words[1]));
+					}
+				}
+				else if(currentRoom.hasItem("Shower")) {
+					if(inventory.contains(getItem("goo"))) {
+						inventory.add(currentRoom.removeItem(words[1]));
+						i=getItem("Shower");
+						i.use();
+						currentRoom.addItem(i);
+						inventory.remove(i);
+						i = getItem("goo");
+						i.use();
+						inventory.remove(getItem("goo"));
+						}
+					}
+				if (i == null )
+					System.out.println("You don't have the "+words[1]+".");
 				else
 					i.use();
 				break;

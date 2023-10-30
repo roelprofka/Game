@@ -48,10 +48,24 @@ public class World {
 		chest.setDesc("It is a large, heavy chest.");
 		chest.setHeavy(true);
 		hall.addItem(chest);
-		Item Chain = new Item("Chain");
+		Item Chain = new Chain();
 		hall2.addItem(Chain);
 		Chain.setHeavy(true);
 		hall2.addExit(lobby, 'd');
+		Item Shower = new Shower();
+		Shower.setDesc("A disgusting shower. A rational person wouldn't use this");
+		restroom.addItem(Shower);
+		Shower.setHeavy(true);
+		Item BoltCutter = new BoltCutter();
+		BoltCutter.setDesc("A rusty pair of BoltCutters lies on the ground here. ");
+		hall.addItem(BoltCutter);
+		Item Safe = new Item("Safe");
+		lounge.addItem(Safe);
+		Safe.setHeavy(true);
+		Safe.setDesc("A gigantic safe exists in this lounge with a lockbox preventing access.");
+		Item Laser = new Laser();
+		Laser.setDesc("A heated laser, using this could heat up even the coldest of bar rooms");
+		lounge.addItem(Laser);
 		return lobby;
 	}
 }
