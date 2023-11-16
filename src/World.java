@@ -1,10 +1,14 @@
+import java.util.*;
 public class World {
+	public static HashMap<String, Room> rooms = 
+			new HashMap<String, Room>();
 	public static Room buildWorld() {
 		Room lobby = new Room("lobby", "The hotel's lobby. Doorways lead east" +
 				"to a lounge" + 
 				" and west to a bar. There is a hallway to the north and" +
 				"a " +
 				" staircase up to the second floor.");
+		
 		Room lounge = new Room("lounge", "A comfortable lounge with armchairs,a couch, and" +
 				" a delightful fire. An old man with a newspaper in his " +
 				"lap" +
@@ -19,14 +23,24 @@ public class World {
 				" west walls. You can return south to the lobby.");
 		Room hall2 = new Room("hall2", "You on the hotel's second floor! A " +
 				"staircase leads" +
-				" back down to the lobby.");
+				" back down to the lobby." +
+				"There is also a kitchen closed off");
 		Room restroom = new Room("restroom", "What a pleasant rest room! So " +
 				"clean! So fresh!");
+		Room kitchen = new Room("kitchen", "You finally entered the kitchen. This could be promising.");
+		rooms.put("Lobby",lobby);
+		rooms.put("Lounge", lounge);
+		rooms.put("Bar", bar);
+		rooms.put("Hall", hall);
+		rooms.put("Hall2", hall2);
+		rooms.put("Restroom", restroom);
+		rooms.put("Kitchen", kitchen);
 		lobby.addExit(lounge, 'e');
 		lobby.addExit(bar, 'w');
 		lobby.addExit(hall, 'n');
 		lobby.addExit(hall2, 'u');
 		lounge.addExit(lobby, 'w');
+		hall2.addExit(kitchen, 'e');
 		Item newspaper = new Item("newspaper");
 		newspaper.setDesc("It's a newspaper. Made of paper. What's up withthat?");
 		lounge.addItem(newspaper);

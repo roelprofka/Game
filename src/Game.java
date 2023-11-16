@@ -1,11 +1,25 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 public class Game {
+	public static HashMap<Room, String> rooms = 
+			new HashMap<Room, String>();
 	private static Room currentRoom;
-	private static ArrayList<Item> inventory = new ArrayList<Item>();
+	public static ArrayList<Item> inventory = new ArrayList<Item>();
 	public static Room getCurrentRoom() {
 		return currentRoom;
 	}
+	public static void setcurrentRoom(Room r) {
+		currentRoom = r;
+	}
+	
 	public static void move(char direction) {
 		Room nextRoom = currentRoom.getExit(direction);
 		if (nextRoom != null) {
@@ -45,16 +59,14 @@ public class Game {
 			case "d":
 				move(playerCommand.charAt(0));
 				break;
+			case "save":
+				saveGame();
+				break;
 			case "take":
 				itemName = words[1];
 				if (currentRoom.hasItem(itemName)) {
 					Item item = currentRoom.getItem(itemName);
-					if (item.isHeavy())
-						System.out.println("That's too heavy to carrya round!");
-					else {
-						inventory.add(currentRoom.removeItem(itemName));
-						System.out.println("You pick up the " +itemName + ".");
-					}
+					item.take();
 				} else {
 					System.out.println("There is no " + itemName + "!");
 				}
@@ -73,26 +85,21 @@ public class Game {
 				if(currentRoom.hasItem("Chain")) {
 					inventory.add(currentRoom.removeItem(words[1]));
 					i=getItem(words[1]);
-					i.use();
-					currentRoom.addItem(i);
 					inventory.remove(i);
-					if(words[1].equals("Chain")) {
-						words[1]="goo";
-						inventory.add(currentRoom.removeItem(words[1]));
-					}
+					currentRoom.addItem(i);
+
 				}
 				else if(currentRoom.hasItem("Shower")) {
 					if(inventory.contains(getItem("goo"))) {
 						inventory.add(currentRoom.removeItem(words[1]));
 						i=getItem("Shower");
-						i.use();
 						currentRoom.addItem(i);
 						inventory.remove(i);
 						i = getItem("goo");
-						i.use();
 						inventory.remove(getItem("goo"));
 						}
 					}
+					
 				if (i == null )
 					System.out.println("You don't have the "+words[1]+".");
 				else
@@ -115,6 +122,44 @@ public class Game {
 			}
 		}
 		scan.close();
+	}
+	public static void saveGame() {
+		try {
+		File saveFile = new File("save");
+		saveFile.createNewFile();
+			ObjectOutputStream stream = new ObjectOutputStream(new
+			FileOutputStream(saveFile));
+			stream.writeObject(currentRoom);
+			stream.writeObject(inventory);
+			stream.writeObject(rooms);
+			stream.close();
+			Game.print("Game saved.");
+		} catch (FileNotFoundException ex) {
+			Game.print("Error accessing save file.");
+		} catch (IOException ex) {
+			Game.print("Error creating save file.");
+			ex.printStackTrace();
+			}
+		}
+	public static void loadGame() {
+		try {
+		ObjectInputStream stream = new ObjectInputStream(new FileInputStream(saveFile));
+		currentRoom = (Room) stream.readObject();		
+		inventory = (ArrayList<Item>) stream.readObject();
+		rooms = (HashMap<Room, String>)stream.readObject();
+		}
+		catch(FileNotFoundException ex) {
+			Game.print("Error accessing save file.");
+		}
+	}
+	// include game.populatemap from readfiledemo.java
+	public static void readFile() {
+		try {
+			Scanner scan = new Scanner(new File("rooms"));
+		}
+		catch(IOException ex) {
+			Game.print("Can not find game descriptions");
+		}
 	}
 	public static void print(String message) {
 		System.out.println(message +"\n");

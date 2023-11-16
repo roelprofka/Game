@@ -1,5 +1,8 @@
 import java.util.HashMap;
-public class Room {
+import java.util.Map.Entry;
+import java.util.Set;
+import java.io.Serializable;
+public class Room implements Serializable {
 	private Room east;
 	private Room west;
 	private Room north;
@@ -9,12 +12,14 @@ public class Room {
 	private String desc;
 	private boolean locked; // Is the room locked?
 	private String name;
+	private String roomID;
 	private HashMap<String, Item> roomItems;
 	public Room(String n, String d) {
 		name = n;
-		desc = d;
+		roomID = n;
 		locked = false;
 		roomItems = new HashMap<String, Item>();
+		World.rooms.put(name,this);
 	}
 	public String getName() {
 		return name;
@@ -37,9 +42,6 @@ public class Room {
 	public boolean hasItem(String name) {
 		return roomItems.containsKey(name);
 	}
-	public String getDesc() {
-		return desc;
-	}
 	public void addExit(Room r, char direction) {
 		switch(direction) {
 		case 'e': east = r; break;
@@ -50,7 +52,10 @@ public class Room {
 		case 'd': down = r; break;
 		}
 	}
-	public Room getExit(char direction) {
+	public void setRoomID(String Id) {
+		roomID = Id;
+	}	
+		public Room getExit(char direction) {
 		switch(direction) {
 		case 'e': return east;
 		case 'w': return west;
@@ -61,6 +66,14 @@ public class Room {
 		default : return null;
 		}
 	}
+	public String getDesc() {
+		for(Room a: Game.rooms.keySet()){
+			desc = a.getName();
+			return desc;
+
+		}
+		return null;
+		}
 	public String toString() {
 		return desc;
 	}

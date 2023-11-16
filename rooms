@@ -1,0 +1,18 @@
+HOTEL_LOBBY
+You are standing in the hotel's lobby. Doorways lead east to a lounge and west to a bar. A hallway stretches to the north and a staircase leads up to the second floor. The door to the outside is to the south and is currently locked.
+#
+HOTEL_LOUNGE
+This is a pleasant room with a couch and a few armchairs. An old man sleeps in one of the armchairs, a newspaper laying across his lap. A doorway leads west back to the lobby.
+#
+HOTEL_BAR
+The hotel bar! There is a long bar along the west wall and a door labeled 'Rest Room' to the north. A doorway" to the east leads back to the lobby.
+#
+Hotel_RESTROOM
+restroom", "What a pleasant rest room! So clean! So fresh!
+#
+Hotel_Hall
+hall, A dead-end hallway. There are doors in the east and west walls. You can return south to the lobby.
+#
+Hotel_Hall2
+hall2 You are on the hotel's second floor! A staircase leads back down to the lobby.                                      
+#
